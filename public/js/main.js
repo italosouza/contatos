@@ -15,6 +15,11 @@ angular.module('contato', ['ngRoute'])
       controller: 'ContatosController'
     });
 
+    $routeProvider.when('/atividade', {
+      templateUrl: 'partials/atividade_con.html',
+      controller: 'AtividadeController'
+    });
+
     $routeProvider.otherwise({redirectTo: '/contatos'});
 
   });
