@@ -25,6 +25,7 @@ module.exports = function()
 
   //carregando modulos/rotas
   load('models', {cwd: 'app'})
+    .then('service')
     .then('controllers')
     .then('routes')
     .into(app);
