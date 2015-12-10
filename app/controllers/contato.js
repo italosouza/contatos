@@ -21,5 +21,16 @@ module.exports = function() {
       res.status(404).send('Contato não encontrado');
   };
 
+
+  controller.removeContato = function(req, res) {
+    var nID = req.params.id;
+
+    contatos = contatos.filter(function(contato) {
+      return contato._id != nID;
+    });
+    console.log('API: removeContato');
+    res.status(204).end();
+  };
+
   return controller;
 };

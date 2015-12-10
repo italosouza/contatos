@@ -2,7 +2,7 @@
  * Created by italo on 12/7/2015.
  */
 
-angular.module('contato', ['ngRoute'])
+angular.module('contato', ['ngRoute', 'ngResource'])
   .config(function($routeProvider) {
 
     $routeProvider.when('/contatos', {
