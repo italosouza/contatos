@@ -11,9 +11,9 @@ angular.module('contato').controller('ContatosController', function($scope, $res
 
   $scope.filtro = '';
   $scope.contatos = [];
+  $scope.mensagem = {texto: ''};
 
   var Contato = $resource('/contatos/:id');
-  var promise = Contato.query().$promise;
 
 
   function buscarContatos () {
@@ -28,17 +28,13 @@ angular.module('contato').controller('ContatosController', function($scope, $res
   }
 
   $scope.remove = function(contato) {
-    console.lgo(contato);
+    var promise = Contato.delete({id: contato._id},
+      buscarContatos,
+      function(erro) {
+        console.log('Não foi possível obter a lista de contatos');
+        console.log(erro);
+      });
   };
-
-  // promise
-  //   .then(function(contatos) {
-  //     $scope.contatos = contatos;
-  //   })
-  //   .catch(function(error) {
-  //     console.log('Não foi possível obter a lista de contatos');
-  //     console.log(error);
-  //   });
 
   buscarContatos();
 });
