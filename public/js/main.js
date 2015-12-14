@@ -12,7 +12,12 @@ angular.module('contato', ['ngRoute', 'ngResource'])
 
     $routeProvider.when('/contato/:id', {
       templateUrl: 'partials/contato.html',
-      controller: 'ContatosController'
+      controller: 'ContatoController'
+    });
+
+    $routeProvider.when('/contato', {
+      templateUrl: 'partials/contato.html',
+      controller: 'ContatoController'
     });
 
     $routeProvider.when('/atividade', {

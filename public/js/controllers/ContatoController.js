@@ -7,14 +7,37 @@
  *
  * @requires $scope
  * */
-angular.module('contato').controller('ContatoController', function($scope, $routeParams){
+angular.module('contato').controller('ContatoController', function($scope, $routeParams, Contato){
 
-  $scope.total = 0;
+  if ($routeParams.id)
+  {
+      Contato.get({id: $routeParams.id},
+        function(contato) {
+          $scope.contato = contato;
+        },
+        function(error) {
+          $scope.mensagem = {
+            texto: 'Contato não existe. Novo contato.'
+          }
+          console.log(error);
+        });
 
-  $scope.incrementa = function () {
-    $scope.total++;
-  }
+    }
+    else
+    {
+      $scope.contato = new Contato();
+    }
 
 
+    $scope.salva = function() {
+      $scope.contato.$save()
+        .then(function() {
+          $scope.mensagem = { texto: 'Salvo com sucesso' };
+          $scope.contato = new Contato();
+        })
+        .catch(function(erro) {
+          $scope.mensagem = { texto: 'Não foi possível salvar'};
+        });
+    };
 
 });

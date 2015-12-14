@@ -1,6 +1,6 @@
 module.exports = function(app) {
   var controller = {};
-  var conexao = app.service.connection;
+  var conexao = app.services.connection;
 
   controller.listar = function(req, res) {
 

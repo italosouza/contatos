@@ -7,14 +7,11 @@
  *
  * @requires $scope
  * */
-angular.module('contato').controller('ContatosController', function($scope, $resource){
+angular.module('contato').controller('ContatosController', function($scope, Contato){
 
   $scope.filtro = '';
   $scope.contatos = [];
   $scope.mensagem = {texto: ''};
-
-  var Contato = $resource('/contatos/:id');
-
 
   function buscarContatos () {
     Contato.query(
