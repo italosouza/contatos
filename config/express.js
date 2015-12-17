@@ -1,12 +1,16 @@
 /**
  * @brief implementa as configurações da aplicação express
  * @details [relação de dependencia: ROTA -(usa)-> CONTROLLER -(usa)-> MODEL]
- * @return [express app module]
+ * @return module
  */
 
 var express = require('express');
 var load = require('express-load');
 var bodyParser = require('body-parser');
+
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var passport = require('passport');
 
 module.exports = function()
 {
@@ -29,6 +33,17 @@ module.exports = function()
     .then('controllers')
     .then('routes')
     .into(app);
+
+  app.use(cookieParser());
+  app.use(session(
+    { secret: 'homem avestruz',
+      resave: true,
+      saveUninitialized: true
+    }
+  ));
+
+  app.use(passport.initialize());
+  app.use(passport.session());
 
 
   return app;

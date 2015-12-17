@@ -3,7 +3,9 @@
  */
 
 angular.module('contato', ['angular-loading-bar', 'ngRoute', 'ngResource'])
-  .config(function($routeProvider) {
+  .config(function($routeProvider, $httpProvider) {
+
+    $httpProvider.interceptors.push('meuInterceptor');
 
     $routeProvider.when('/contatos', {
       templateUrl: 'partials/contatos.html',
@@ -23,6 +25,10 @@ angular.module('contato', ['angular-loading-bar', 'ngRoute', 'ngResource'])
     $routeProvider.when('/atividade', {
       templateUrl: 'partials/atividade_con.html',
       controller: 'AtividadeController'
+    });
+
+    $routeProvider.when('/auth', {
+      templateUrl: 'partials/auth.html'
     });
 
     $routeProvider.otherwise({redirectTo: '/contatos'});
