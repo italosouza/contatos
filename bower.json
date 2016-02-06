@@ -1,12 +1,9 @@
 {
-  "name": "front",
-  "version": "0.0.0",
-  "homepage": "https://github.com/italosouza/contatos",
+  "name": "iask-admin",
+  "main": "app.js",
+  "version": "2.0.0",
   "authors": [
-    "Italo Souza <italoasouza@gmail.com>"
-  ],
-  "moduleType": [
-    "node"
+    "italo.souza"
   ],
   "license": "MIT",
   "ignore": [
@@ -17,10 +14,11 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.8",
-    "angular-route": "~1.4.8",
-    "bootstrap": "~3.3.6",
-    "angular-resource": "~1.4.8",
-    "angular-loading-bar": "~0.8.0"
+    "angular": "^1.5.0",
+    "angular-animate": "^1.5.0",
+    "angular-aria": "^1.5.0",
+    "angular-material": "^1.0.5",
+    "angular-loading-bar": "^0.8.0",
+    "angular-route": "^1.5.0"
   }
 }
