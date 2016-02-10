@@ -1,0 +1,25 @@
+<ng-include src="navbar-left.html" scope="" onload=""></ng-include>
+  <!-- layout principal  -->
+  <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
+
+    <!-- titulo do painel  -->
+    <md-toolbar layout="row" class="md-whiteframe-z1">
+      <md-button id="main" class="menu" hide-gt-sm ng-click="toggleList()" aria-label="Show User List">
+        <md-icon md-svg-icon="menu" ></md-icon>
+      </md-button>
+      <h3>{{selected.name}}</h3>
+    </md-toolbar>
+
+    <!-- conteudo do layout -->
+    <md-content flex id="content" ng-show="selected">
+        <md-icon md-svg-icon="{{selected.avatar}}" class="avatar"></md-icon>
+        <h2>{{selected.name}}</h2>
+        <p>{{selected.content}}</p>
+
+        <md-button class="contact" md-no-ink ng-click="makeContact(selected)" aria-label="Share with {{ selected.name }}">
+          <md-tooltip>Contatar {{ selected.name }}</md-tooltip>
+          <md-icon md-svg-icon="share"></md-icon>
+        </md-button>
+      </md-content>
+
+  </div>
