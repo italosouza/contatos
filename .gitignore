@@ -2,6 +2,7 @@ logs/*
 !.gitkeep
 node_modules/
 client/vendor/
+dist/
 tmp
 .DS_Store
 .idea

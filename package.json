@@ -3,13 +3,11 @@
   "private": true,
   "version": "0.0.4",
   "description": "A starter project",
-  "repository": "https://github.com/angular/material-start",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/angular/material/blob/master/LICENSE"
-    }
-  ],
+  "repository": "https://github.com/italosouza/contatos.git",
+  "licenses": [{
+    "type": "MIT",
+    "url": "https://github.com/angular/material/blob/master/LICENSE"
+  }],
   "devDependencies": {
     "angular-mocks": "^1.4.9",
     "gulp": "^3.9.0",
