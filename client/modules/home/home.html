@@ -1,16 +1,13 @@
+<!-- <ng-include src="'modules/home/navbar-left.html'" height="100%"><ng-include> -->
 
 
-    <!-- titulo do painel  -->
-    <md-toolbar layout="row" class="md-whiteframe-z1">
-      <md-button id="main" class="menu" hide-gt-sm ng-click="toggleList()" aria-label="Show User List">
-        <md-icon md-svg-icon="menu" ></md-icon>
-      </md-button>
-      <h3>{{selected.name}}</h3>
-    </md-toolbar>
+<!-- <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2"> -->
+
+
 
     <!-- conteudo do layout -->
     <md-content flex id="content" ng-show="selected">
-        <md-icon md-svg-icon="{{selected.avatar}}" class="avatar"></md-icon>
+        <md-icon md-svg-icon="{{selected.icon}}" class="avatar"></md-icon>
         <h2>{{selected.name}}</h2>
         <p>{{selected.content}}</p>
 
@@ -20,3 +17,5 @@
         </md-button>
       </md-content>
 
+<!-- </div> -->
+<ng-include src="'modules/home/footer.html'" height="100%"><ng-include>

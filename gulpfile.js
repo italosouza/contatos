@@ -9,6 +9,8 @@ var cache = require('gulp-cache');
 var nano = require('gulp-cssnano');
 var sass = require('gulp-sass');
 var imagemin = require('gulp-imagemin');
+var browserSync = require('browser-sync').create();
+var reload = browserSync.reload;
 
 gulp.task('images', function() {
   gulp.src('./client/static/images/**/*')
@@ -89,6 +91,20 @@ gulp.task('server', function() {
     .pipe(jshint.reporter('default'))
     .pipe(uglify())
     .pipe(gulp.dest('./dist/'))
+});
+
+
+
+// Static server
+gulp.task('browser-sync', function() {
+
+  browserSync.init({
+    server: {
+      baseDir: "./dist/"
+    }
+  });
+  gulp.watch("*.html").on("change", reload);
+
 });
 
 gulp.task('default', function() {
