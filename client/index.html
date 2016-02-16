@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="coreApp" ng-controller="appCtrl">
   <head>
     <title>IASK</title>
 
@@ -25,12 +25,10 @@
 
   </head>
 
-  <body layout="column" ng-cloak  data-ng-app="coreApp" data-ng-controller="HomeController">
-
-
+  <body layout="column" ng-cloak >
     <!-- titulo do painel  -->
-    <md-toolbar layout="row" class="md-whiteframe-z1" ng-show="lista">
-      <md-button id="main" class="menu" hide-gt-sm ng-click="toggleList()" aria-label="Show User List">
+    <md-toolbar layout="row" class="md-whiteframe-z1" ng-show="listaMenu">
+      <md-button id="main" class="menu" hide-gt-sm ng-click="toggleList()" aria-label="Menu">
         <md-icon md-svg-icon="menu" ></md-icon>
       </md-button>
       <h3>{{selected.name}}</h3>
@@ -44,20 +42,18 @@
           md-component-id="left"
           ng-click="toggleList()" aria-label="Show User List"
           md-is-locked-open="$mdMedia('gt-sm')"
-          ng-show="lista">
-
+          ng-show="listaMenu">
 
         <!-- lista de itens da navegação -->
         <md-list>
-          <md-list-item ng-repeat="menu in lista">
-              <md-button ng-click="selectUser(menu)" ng-class="{'selected' : menu === selected }">
+          <md-list-item ng-repeat="menu in listaMenu">
+              <md-button ng-click="selecionarItemMenu(menu)" ng-class="{'selected' : menu === selected }">
                 <md-icon md-svg-icon="{{menu.icon}}" class="avatar"></md-icon>
                 {{menu.name}}
               </md-button>
           </md-list-item>
         </md-list>
       </md-sidenav>
-
 
       <div flex layout="column">
         <!-- conteudo do layout -->

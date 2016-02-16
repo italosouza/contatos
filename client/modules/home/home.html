@@ -1,19 +1,11 @@
-<!-- <ng-include src="'modules/home/navbar-left.html'" height="100%"><ng-include> -->
+<!-- conteudo do layout -->
+<md-content flex id="content" ng-show="menuSelecionado">
+  <md-icon md-svg-icon="{{menuSelecionado.icon}}" class="avatar"></md-icon>
+  <h2>{{menuSelecionado.name}}</h2>
+  <p>{{menuSelecionado.content}}</p>
 
-
-<!-- <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2"> -->
-
-    <!-- conteudo do layout -->
-    <md-content flex id="content" ng-show="selected">
-        <md-icon md-svg-icon="{{selected.icon}}" class="avatar"></md-icon>
-        <h2>{{selected.name}}</h2>
-        <p>{{selected.content}}</p>
-
-        <md-button class="contact" md-no-ink ng-click="makeContact(selected)" aria-label="Share with {{ selected.name }}">
-          <md-tooltip>Contatar {{ selected.name }}</md-tooltip>
-          <md-icon md-svg-icon="share"></md-icon>
-        </md-button>
-      </md-content>
-
-<!-- </div> -->
-<ng-include src="'modules/home/footer.html'" height="100%"><ng-include>
+  <md-button class="contact" md-no-ink ng-click="makeContact(menuSelecionado)" aria-label="Share with {{ menuSelecionado.name }}">
+    <md-tooltip>Contatar {{ menuSelecionado.name }}</md-tooltip>
+    <md-icon md-svg-icon="share"></md-icon>
+  </md-button>
+</md-content>
