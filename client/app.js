@@ -7,7 +7,8 @@
     'angular-loading-bar',
     'ngRoute',
     'ngResource',
-    'coreApp.home'
+    'coreApp.home',
+    'coreApp.contato'
   ])
 
   .config(['$routeProvider', '$mdThemingProvider', '$mdIconProvider', function($routeProvider, $mdThemingProvider, $mdIconProvider) {
@@ -38,14 +39,14 @@
     $scope.menuSelecionado = null;
 
     $scope.listaMenu = [{
-      name: 'Lia Lugo',
+      name: 'Home',
       icon: 'svg-1',
       rota: 'home',
       content: 'Ligeira descrição'
     }, {
-      name: 'George Duke',
+      name: 'Contato',
       icon: 'svg-2',
-      rota: '',
+      rota: 'contato',
       content: 'Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. De carne lumbering animata corpora quaeritis. Summus brains sit​​, morbo vel maleficia? De apocalypsi gorger omero undead survivor dictum mauris.'
     }, {
       name: 'Ernesto Urbina',

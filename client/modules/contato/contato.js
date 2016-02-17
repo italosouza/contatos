@@ -6,7 +6,7 @@
   //define as rotas do modulo
   .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/contato', {
-        templateUrl: 'modules/contato/contato_con.html',
+        templateUrl: 'modules/contato/contato.html',
         controller: 'ContatoController'
       })
       .when('/contato/edit', {
@@ -25,12 +25,54 @@
   }])
 
   //define a controller do modulo
-  .controller('ContatoController', ['$scope', '$routeParams', 'ContatoService', function($scope, $routeParams, ContatoService) {
-
+  .controller('ContatoController', ['$scope', '$routeParams', 'ContatoService', '$mdBottomSheet','$mdDialog', function($scope, $routeParams, ContatoService, $mdBottomSheet, $mdDialog) {
+    var bItemSelecionado = false;
+    $scope.itemSelecionado = null;
+    $scope.tabs = {
+      selectedIndex: 0
+    };
+    // placeholder
+    $scope.states = ('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS ' +
+    'MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI ' +
+    'WY').split(' ').map(function(state) {
+        return {abbrev: state};
+      });
     $scope.lista = [];
-    $scope.titulo = 'IASK';
     $scope.mensagem = {
       texto: ''
+    };
+
+    $scope.selecionarItemCadastro = function(pItem) {
+      $scope.itemSelecionado = pItem;
+      bItemSelecionado = true;
+      $scope.tabs.selectedIndex = 1;
+    };
+
+    $scope.$watch('tabs.selectedIndex', function(current){
+      if(!bItemSelecionado && current === 1) {
+        $scope.itemSelecionado = null;
+      }
+      bItemSelecionado = false;
+    });
+
+
+    $scope.removerItemCadastro = function(pItem, event) {
+      // Appending dialog to document.body to cover sidenav in docs app
+      var confirm = $mdDialog.confirm()
+        .title('Deseja remover este registro?')
+        .textContent('Ao confirmar esta operação o registro será removido e não será possível recuperá-lo.')
+        .ariaLabel('Lucky day')
+        .targetEvent(event)
+        .ok('SIM')
+        .cancel('NÃO');
+  
+      $mdDialog.show(confirm)
+        .then(function() {
+          $scope.mensagem = { texto: 'You decided to get rid of your debt.', obj: pItem};
+        }, function() {
+          $scope.mensagem = { texto: 'You decided to keep your debt.', obj: pItem};
+        });
+      
     };
 
     //setup inicial do objeto (editar/cadastrar)
@@ -44,7 +86,7 @@
         },
         function(error) {
           $scope.mensagem = {
-            texto: 'ContatoService não existe.'
+            texto: 'Contato não existe.'
           };
           console.error(error);
         });
