@@ -25,7 +25,7 @@
   }])
 
   //define a controller do modulo
-  .controller('ContatoController', ['$scope', '$routeParams', 'ContatoService', '$mdBottomSheet','$mdDialog', function($scope, $routeParams, ContatoService, $mdBottomSheet, $mdDialog) {
+  .controller('ContatoController', ['$scope', '$routeParams', 'ContatoService', '$mdDialog', function($scope, $routeParams, ContatoService, $mdDialog) {
     var bItemSelecionado = false;
     $scope.itemSelecionado = null;
     $scope.tabs = {
@@ -61,16 +61,16 @@
       var confirm = $mdDialog.confirm()
         .title('Deseja remover este registro?')
         .textContent('Ao confirmar esta operação o registro será removido e não será possível recuperá-lo.')
-        .ariaLabel('Lucky day')
+        .ariaLabel('Remover')
         .targetEvent(event)
         .ok('SIM')
         .cancel('NÃO');
   
       $mdDialog.show(confirm)
         .then(function() {
-          $scope.mensagem = { texto: 'You decided to get rid of your debt.', obj: pItem};
+          $scope.mensagem = { texto: 'Registro removido.', status: 'ok', obj: pItem};
         }, function() {
-          $scope.mensagem = { texto: 'You decided to keep your debt.', obj: pItem};
+          $scope.mensagem = { texto: 'Operação cancelada.', status: 'nok', obj: pItem};
         });
       
     };

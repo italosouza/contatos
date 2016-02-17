@@ -31,8 +31,12 @@
       .accentPalette('red');
 
   }])
+  
+  .factory('CoreAppService', ['$resource', function($resource) {
+    return $resource('/navegacao/:sistema');
+  }])
 
-  .controller('appCtrl', ['$scope', '$mdSidenav', '$location', function($scope, $mdSidenav, $location) {
+  .controller('appCtrl', ['$scope', '$mdSidenav', '$location', 'CoreAppService', function($scope, $mdSidenav, $location, CoreAppService) {
     $scope.painel = {
       titulo: 'IASK'
     };
@@ -42,23 +46,25 @@
       name: 'Home',
       icon: 'svg-1',
       rota: 'home',
-      content: 'Ligeira descrição'
+      content: 'Exibe o painel principal do portal.'
     }, {
       name: 'Contato',
       icon: 'svg-2',
       rota: 'contato',
-      content: 'Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. De carne lumbering animata corpora quaeritis. Summus brains sit​​, morbo vel maleficia? De apocalypsi gorger omero undead survivor dictum mauris.'
+      content: 'Permite o gerenciamento de contatos.'
     }, {
-      name: 'Ernesto Urbina',
+      name: 'Usuário',
       icon: 'svg-5',
-      rota: '',
-      content: 'Webtwo ipsum dolor sit amet, eskobo chumby doostang bebo. Bubbli greplin stypi prezi mzinga heroku wakoopa, shopify airbnb dogster dopplr gooru jumo, reddit plickers edmodo stypi zillow etsy.'
+      rota: 'usuario',
+      content: 'Permite o gerenciamento de contas de usuário.'
     }, {
-      name: 'Gani Ferrer',
+      name: 'Menu',
       icon: 'svg-6',
-      rota: '',
-      content: "Lebowski ipsum yeah? What do you think happens when you get rad? You turn in your library card? Get a new driver's license? Stop being awesome? Dolor sit amet, consectetur adipiscing elit praesent ac magna justo pellentesque ac lectus. You don't go out and make a living dressed like that in the middle of a weekday. Quis elit blandit fringilla a ut turpis praesent felis ligula, malesuada suscipit malesuada."
+      rota: 'menu',
+      content: "Permite que novas rotas de navegação sejam configuradas."
     }];
+    
+    $scope.listaMenu = CoreAppService.query({sistema: 'admin'});
 
     $scope.selecionarItemMenu = function(pItemMenu) {
       $scope.menuSelecionado = pItemMenu;
