@@ -19,52 +19,59 @@
   // }])
 
   //define a controller do modulo
-  .controller('HomeController', ['$scope', '$mdBottomSheet', function($scope, $mdBottomSheet) {
-
-    /**
-     * Show the Contact view in the bottom sheet
-     */
-    $scope.makeContact = function(selectedUser) {
-
-      /**
-       * User ContactSheet controller
-       */
-      var ContactSheetController = function($mdBottomSheet) {
-        this.user = selectedUser;
-        this.actions = [{
-          name: 'Phone',
-          icon: 'phone',
-          icon_url: 'assets/svg/phone.svg'
-        }, {
-          name: 'Twitter',
-          icon: 'twitter',
-          icon_url: 'assets/svg/twitter.svg'
-        }, {
-          name: 'Google+',
-          icon: 'google_plus',
-          icon_url: 'assets/svg/google_plus.svg'
-        }, {
-          name: 'Hangout',
-          icon: 'hangouts',
-          icon_url: 'assets/svg/hangouts.svg'
-        }];
-        this.contactUser = function(action) {
-          // The actually contact process has not been implemented...
-          // so just hide the bottomSheet
-
-          $mdBottomSheet.hide(action);
-        };
-      };
-
-      $mdBottomSheet.show({
-        controllerAs: "cp",
-        templateUrl: './modules/home/parte.html',
-        controller: ['$mdBottomSheet', ContactSheetController],
-        parent: angular.element(document.getElementById('content'))
-      }).then(function(clickedItem) {
-        console.log(clickedItem.name + ' clicked!');
+  .controller('HomeController', ['$scope', '$mdBottomSheet','$mdDialog', function($scope, $mdBottomSheet, $mdDialog) {
+    var bItemSelecionado = false;
+    $scope.itemSelecionado = null;
+    
+    $scope.tabs = {
+      selectedIndex: 0
+    };
+    
+    // placeholder
+    $scope.states = ('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS ' +
+    'MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI ' +
+    'WY').split(' ').map(function(state) {
+        return {abbrev: state};
+      });
+    
+    $scope.selecionarItemCadastro = function(pItem) {
+      $scope.itemSelecionado = pItem;
+      bItemSelecionado = true;
+      $scope.tabs.selectedIndex = 1;
+    };
+    
+    $scope.$watch('tabs.selectedIndex', function(current){
+      if(!bItemSelecionado && current === 1) {
+        $scope.itemSelecionado = null;
+      }
+      bItemSelecionado = false;
+    });
+    
+    $scope.removerItemCadastro = function(pItem, event) {
+      $mdDialog.show(
+        $mdDialog.alert()
+          .title('Secondary Action')
+          .textContent('Secondary actions can be used for one click actions')
+          .ariaLabel('Secondary click demo')
+          .ok('Neat!')
+          .targetEvent(event)
+      );
+    };
+  
+    $scope.doPrimaryAction = function(event) {
+      $mdDialog.show(
+        $mdDialog.alert()
+          .title('Primary Action')
+          .textContent('Primary actions can be used for one click actions')
+          .ariaLabel('Primary click demo')
+          .ok('Awesome!')
+          .targetEvent(event)
+      )
+      .finally(function() {
+        $scope.tabs.selectedIndex = 1;
       });
     };
+  
   }]);
 
 })();

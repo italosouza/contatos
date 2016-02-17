@@ -16,10 +16,10 @@ md-toolbar h3 {
 
 /* Sidenav area */
 
-md-list-item > button {
+md-sidenav > md-list > md-list-item > button {
   width:100%;
   text-align:left !important;
-  height:70px;;
+  height:70px;
 }
 
 md-icon.avatar {

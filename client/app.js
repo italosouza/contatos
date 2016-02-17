@@ -40,12 +40,12 @@
     $scope.listaMenu = [{
       name: 'Lia Lugo',
       icon: 'svg-1',
-      rota: '',
-      content: 'I love cheese, especially airedale queso. Cheese and biscuits halloumi cauliflower cheese cottage cheese swiss boursin fondue caerphilly. Cow port-salut camembert de normandie macaroni cheese feta who moved my cheese babybel boursin. Red leicester roquefort boursin squirty cheese jarlsberg blue castello caerphilly chalk and cheese. Lancashire.'
+      rota: 'home',
+      content: 'Ligeira descrição'
     }, {
       name: 'George Duke',
       icon: 'svg-2',
-      rota: 'home',
+      rota: '',
       content: 'Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. De carne lumbering animata corpora quaeritis. Summus brains sit​​, morbo vel maleficia? De apocalypsi gorger omero undead survivor dictum mauris.'
     }, {
       name: 'Ernesto Urbina',
@@ -64,12 +64,8 @@
       $location.path('/' + pItemMenu.rota);
     };
 
-    $scope.toggleList = function() {
+    $scope.toggleMenu = function() {
       $mdSidenav('left').toggle();
-    };
-
-    $scope.fecharMenu = function() {
-      $mdSidenav('left').hide();
     };
 
   }]);

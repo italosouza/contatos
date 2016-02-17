@@ -26,12 +26,25 @@
   </head>
 
   <body layout="column" ng-cloak >
-    <!-- titulo do painel  -->
-    <md-toolbar layout="row" class="md-whiteframe-z1" ng-show="listaMenu">
-      <md-button id="main" class="menu" hide-gt-sm ng-click="toggleList()" aria-label="Menu">
-        <md-icon md-svg-icon="menu" ></md-icon>
-      </md-button>
-      <h3>{{selected.name}}</h3>
+
+    <!-- toolbar principal -->
+    <md-toolbar>
+      <div class="md-toolbar-tools" class="md-whiteframe-z1" ng-show="listaMenu">
+        <md-button class="md-icon-button" hide-gt-sm ng-click="toggleMenu()" aria-label="Menu">
+          <md-icon md-svg-icon="menu"></md-icon>
+        </md-button>
+
+        <md-button aria-label="Item do menu" ng-show="menuSelecionado"><h3>{{menuSelecionado.name}}</h3></md-button>
+
+        <span flex></span>
+
+        <md-button class="md-icon-button" aria-label="Favorite">
+          <md-icon md-svg-icon="menu" style="color: greenyellow;"></md-icon>
+        </md-button>
+        <md-button class="md-icon-button" aria-label="More">
+          <md-icon md-svg-icon="menu"></md-icon>
+        </md-button>
+      </div>
     </md-toolbar>
 
 
@@ -40,7 +53,8 @@
       <!-- navegação lateral esquerda  -->
       <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2"
           md-component-id="left"
-          ng-click="toggleList()" aria-label="Show User List"
+          aria-label="Menu"
+          ng-click="toggleMenu()"
           md-is-locked-open="$mdMedia('gt-sm')"
           ng-show="listaMenu">
 
@@ -61,7 +75,6 @@
       </div>
 
     </div>
-
 
 
     <!-- angular core  -->
