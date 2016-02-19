@@ -14,7 +14,7 @@
         controller: 'ContatoController'
       })
       .when('/contato/edit/:id', {
-        templateUrl: 'modules/contato/contato_cad.html',
+        templateUrl: 'modules/contato/contato.html',
         controller: 'ContatoController'
       });
   }])
@@ -43,18 +43,22 @@
     };
 
     $scope.selecionarItemCadastro = function(pItem) {
-      $scope.itemSelecionado = pItem;
+      $scope.buscar(pItem);
+      
+      $scope.itemSelecionado = 1;
       bItemSelecionado = true;
       $scope.tabs.selectedIndex = 1;
     };
 
     $scope.$watch('tabs.selectedIndex', function(current){
       if(!bItemSelecionado && current === 1) {
-        $scope.itemSelecionado = null;
+        $scope.itemSelecionado = new ContatoService();
+      }
+      else if (current === 0) {
+        $scope.listar();
       }
       bItemSelecionado = false;
     });
-
 
     $scope.removerItemCadastro = function(pItem, event) {
       // Appending dialog to document.body to cover sidenav in docs app
@@ -74,35 +78,42 @@
         });
       
     };
+    
+    $scope.submit = function() {
+      $scope.salvar();
+    };
 
     //setup inicial do objeto (editar/cadastrar)
-    if ($routeParams.id) {
-
-      ContatoService.get({
-          id: $routeParams.id
-        },
-        function(contato) {
-          $scope.contato = contato;
-        },
-        function(error) {
-          $scope.mensagem = {
-            texto: 'Contato não existe.'
-          };
-          console.error(error);
-        });
-
-    } else {
-      $scope.contato = new ContatoService();
-    }
+    $scope.buscar = function(pItem) {
+      console.log(pItem);
+      if (pItem._id) {
+  
+        ContatoService.get({
+            id: pItem._id
+          },
+          function(pItem) {
+            $scope.itemSelecionado = pItem;
+          },
+          function(error) {
+            $scope.mensagem = {
+              texto: 'Contato não existe.'
+            };
+            console.error(error);
+          });
+    
+        } else {
+          $scope.itemSelecionado = new ContatoService();
+        }
+    };
 
     $scope.salvar = function() {
-      $scope.contato.$save()
+      $scope.itemSelecionado.$save()
         .then(function() {
           // console.log('Salvo', obj);
           $scope.mensagem = {
             texto: 'Salvo com sucesso'
           };
-          $scope.contato = new ContatoService();
+          $scope.itemSelecionado = new ContatoService();
         })
         .catch(function(erro) {
           $scope.mensagem = {
@@ -112,26 +123,22 @@
         });
     };
 
-    function buscar() {
+    $scope.listar = function() {
       ContatoService.query(
-        function(contato) {
-          $scope.lista = contato;
+        function(pLista) {
+          $scope.lista = pLista;
         },
         function(error) {
           console.error('Não foi possível obter a lista de contato');
           console.table(error);
         });
-    }
-
-    $scope.listar = function() {
-      buscar();
     };
 
-    $scope.remover = function(contato) {
+    $scope.remover = function(pItem) {
       ContatoService.delete({
-          id: contato._id
+          id: pItem._id
         },
-        buscar,
+        $scope.listar,
         function(error) {
           console.error('Não foi possível obter a lista de contato');
           console.table(error);
