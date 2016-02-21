@@ -11,6 +11,12 @@
     'coreApp.contato',
     'coreApp.navegacao'
   ])
+  
+  .constant('MENSAGENS', {
+    corNormal: 'md-primary',
+    corAviso: 'md-primary md-hue-1',
+    corErro: 'md-warn'
+  })
 
   .config(['$routeProvider', '$mdThemingProvider', function($routeProvider, $mdThemingProvider) {
     $routeProvider

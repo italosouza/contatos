@@ -25,7 +25,7 @@
   }])
 
   //define a controller do modulo
-  .controller('NavegacaoController', ['$scope', '$routeParams', 'NavegacaoService', '$mdDialog', function($scope, $routeParams, NavegacaoService, $mdDialog) {
+  .controller('NavegacaoController', ['$scope', '$routeParams', 'NavegacaoService', '$mdDialog', 'MENSAGENS', function($scope, $routeParams, NavegacaoService, $mdDialog, MENSAGENS) {
     var bItemSelecionado = false;
     $scope.itemSelecionado = null;
     $scope.tabs = {
@@ -34,18 +34,24 @@
 
     $scope.lista = [];
     $scope.mensagem = {
+      classe: MENSAGENS.corNormal,
       texto: ''
     };
 
     $scope.selecionarItemCadastro = function(pItem) {
       $scope.buscar(pItem);
-      
+
       $scope.itemSelecionado = 1;
       bItemSelecionado = true;
       $scope.tabs.selectedIndex = 1;
     };
 
     $scope.$watch('tabs.selectedIndex', function(current){
+      $scope.mensagem = {
+        classe: MENSAGENS.corNormal,
+        texto: ''
+      };
+        
       if(!bItemSelecionado && current === 1) {
         $scope.itemSelecionado = new NavegacaoService();
       }
@@ -55,30 +61,24 @@
       bItemSelecionado = false;
     });
 
-    $scope.removerItemCadastro = function(pItem, event) {
-      // Appending dialog to document.body to cover sidenav in docs app
+    $scope.removerItemCadastro = function(pItem, pEvent) {
       var confirm = $mdDialog.confirm()
         .title('Deseja remover este registro?')
         .textContent('Ao confirmar esta operação o registro será removido e não será possível recuperá-lo.')
         .ariaLabel('Remover')
-        .targetEvent(event)
+        .targetEvent(pEvent)
         .ok('SIM')
         .cancel('NÃO');
-  
+
       $mdDialog.show(confirm)
         .then(function() {
-          $scope.mensagem = { texto: 'Registro removido.', status: 'ok', obj: pItem};
+          $scope.remover(pItem);
         }, function() {
-          $scope.mensagem = { texto: 'Operação cancelada.', status: 'nok', obj: pItem};
+          $scope.mensagem = { texto: '', status: 'nok', obj: pItem};
         });
-      
-    };
-    
-    $scope.submit = function() {
-      $scope.salvar();
+
     };
 
-    //setup inicial do objeto (editar/cadastrar)
     $scope.buscar = function(pItem) {
       if (pItem._id) {
         NavegacaoService.get({
@@ -93,26 +93,25 @@
             };
             console.error(error);
           });
-    
-        } else {
-          $scope.itemSelecionado = new NavegacaoService();
+
         }
     };
 
     $scope.salvar = function() {
       $scope.itemSelecionado.$save()
         .then(function() {
-          // console.log('Salvo', obj);
           $scope.mensagem = {
-            texto: 'Salvo com sucesso'
+            texto: 'Salvo com sucesso',
+            classe: MENSAGENS.corAviso
           };
-          $scope.itemSelecionado = new NavegacaoService();
         })
         .catch(function(erro) {
           $scope.mensagem = {
             texto: 'Não foi possível salvar',
+            classe: MENSAGENS.corErro,
             error: erro
           };
+          console.table(erro);
         });
     };
 
@@ -122,7 +121,11 @@
           $scope.lista = pLista;
         },
         function(error) {
-          console.error('Não foi possível obter a lista de navegação');
+          $scope.mensagem = {
+            texto: 'Não foi possível obter a lista de registros',
+            classe: MENSAGENS.corErro,
+            error: error
+          };
           console.table(error);
         });
     };
@@ -133,7 +136,11 @@
         },
         $scope.listar,
         function(error) {
-          console.error('Não foi possível obter a lista de navegação');
+          $scope.mensagem = {
+            texto: 'Não foi possível obter a lista de registros',
+            classe: MENSAGENS.corErro,
+            error: error
+          };
           console.table(error);
         });
     };

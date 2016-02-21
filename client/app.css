@@ -111,21 +111,21 @@ span.name {
 }
 
 #loading-bar .bar {
-  background: #cadd22;
+  background: yellow;
 }
 
 /* Fancy blur effect */
 #loading-bar .peg {
-  -moz-box-shadow: #cadd22 1px 0 6px 1px;
-  -ms-box-shadow: #cadd22 1px 0 6px 1px;
-  -webkit-box-shadow: #cadd22 1px 0 6px 1px;
-  box-shadow: #cadd22 1px 0 6px 1px;
+  -moz-box-shadow: yellow 1px 0 6px 1px;
+  -ms-box-shadow: yellow 1px 0 6px 1px;
+  -webkit-box-shadow: yellow 1px 0 6px 1px;
+  box-shadow: yellow 1px 0 6px 1px;
 
 }
 
 #loading-bar-spinner .spinner-icon {
-  border-top-color:  #cadd22;
-  border-left-color: #cadd22;
+  border-top-color:  yellow;
+  border-left-color: yellow;
 }
 
 .material-icons.md-18 {
