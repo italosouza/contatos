@@ -17,8 +17,6 @@ module.exports = function(app) {
     .post(auth.validarAutenticacao, controller.salvar);
 
   app.route('/navegacao/:id')
+    .get(auth.validarAutenticacao, controller.buscar)
     .delete(auth.validarAutenticacao, controller.remover);
-    
-  app.route('/navegacao/:sistema')
-    .get(auth.validarAutenticacao, controller.listarPorSistema);
 };

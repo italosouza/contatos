@@ -8,7 +8,7 @@ var findOrCreate = require('mongoose-findorcreate');
 module.exports = function() {
 
   var schema = mongoose.Schema({
-    name: {
+    nome: {
       type: String
     },
     rota: {
@@ -21,7 +21,7 @@ module.exports = function() {
     icon: {
       type: String
     },
-    content: {
+    descricao: {
       type: String
     },
     dtInclusao: {

@@ -37,7 +37,7 @@ module.exports = function(app) {
     return _obj;
   };
   
-    controller.listarPorSistema = function(req, res) {
+  controller.listarPorSistema = function(req, res) {
     var sSistema = req.params.sistema;
     _objeto.find({sistema: sSistema}).exec()
       .then(function(pObjeto) {

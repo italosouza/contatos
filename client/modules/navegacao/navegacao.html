@@ -6,7 +6,7 @@
           <md-subheader class="md-no-sticky">Selecione um registro</md-subheader>
 
             <md-list-item class="secondary-button-padding" ng-click="selecionarItemCadastro(item)" ng-repeat="item in lista">
-              <p>{{item.nome}} - {{item.observacao | limitTo:100}}</p>
+              <p>{{item.nome}} - {{item.descricao | limitTo:100}}</p>
               <md-button class="md-secondary" ng-click="removerItemCadastro(item, $event)" aria-label="Remover"><md-icon class="md-48">delete_forever</md-icon></md-button>
             </md-list-item>
 
@@ -33,21 +33,26 @@
                   <label>Nome</label>
                   <input ng-model="itemSelecionado.nome" required>
                 </md-input-container>
+                
+                <md-input-container class="md-block" flex-gt-sm>
+                  <label>Rota</label>
+                  <input ng-model="itemSelecionado.rota">
+                </md-input-container>
 
                 <md-input-container class="md-block" flex-gt-sm>
-                  <label>Email</label>
-                  <input ng-model="itemSelecionado.email" type="email">
+                  <label>Sistema</label>
+                  <input ng-model="itemSelecionado.sistema">
                 </md-input-container>
               </div>
 
               <md-input-container class="md-block">
-                <label>Endereço</label>
-                <input ng-model="itemSelecionado.endereco">
+                <label>Icone</label>
+                <input ng-model="itemSelecionado.icon">
               </md-input-container>
 
               <md-input-container class="md-block">
-                <label>Observação</label>
-                <textarea ng-model="itemSelecionado.observacao" md-maxlength="350" rows="5" cols="5"></textarea>
+                <label>Descrição</label>
+                <textarea ng-model="itemSelecionado.descricao" md-maxlength="350" rows="5" cols="5"></textarea>
               </md-input-container>
 
 

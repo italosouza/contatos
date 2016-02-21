@@ -7,7 +7,7 @@
 
             <md-list-item class="secondary-button-padding" ng-click="selecionarItemCadastro(item)" ng-repeat="item in listaMenu">
               <p>{{item.name}} {{item.content | limitTo:100}}</p>
-              <md-button class="md-secondary" ng-click="removerItemCadastro(item, $event)" aria-label="Remover"><md-icon md-svg-icon="menu"></md-icon></md-button>
+              <md-button class="md-secondary" ng-click="removerItemCadastro(item, $event)" aria-label="Remover"><md-icon class="md-48">delete_forever</md-icon></md-button>
             </md-list-item>
 
           </md-list>

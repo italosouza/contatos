@@ -8,8 +8,9 @@
     <meta name="description" content="">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
     <link rel="stylesheet" href="vendor/angular-material/angular-material.min.css"/>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <!-- CSS LOAGIND BAR -->
     <link rel='stylesheet' href='vendor/angular-loading-bar/build/loading-bar.min.css' type='text/css' media='all' />
     <link rel="stylesheet" href="app.min.css"/>
@@ -31,7 +32,7 @@
     <md-toolbar>
       <div class="md-toolbar-tools" class="md-whiteframe-z1" ng-show="listaMenu">
         <md-button class="md-icon-button" hide-gt-sm ng-click="toggleMenu()" aria-label="Menu">
-          <md-icon md-svg-icon="menu"></md-icon>
+          <md-icon>menu</md-icon>
         </md-button>
 
         <md-button aria-label="Item do menu" ng-show="menuSelecionado"><h3>{{menuSelecionado.name}}</h3></md-button>
@@ -39,11 +40,13 @@
         <span flex></span>
 
         <md-button class="md-icon-button" aria-label="Favorite">
-          <md-icon md-svg-icon="menu" style="color: greenyellow;"></md-icon>
+          <md-icon style="color: greenyellow;">build</md-icon>
         </md-button>
+        
         <md-button class="md-icon-button" aria-label="More">
-          <md-icon md-svg-icon="menu"></md-icon>
+          <md-icon>face</md-icon>
         </md-button>
+        
       </div>
     </md-toolbar>
 
@@ -61,9 +64,9 @@
         <!-- lista de itens da navegação -->
         <md-list>
           <md-list-item ng-repeat="menu in listaMenu">
-              <md-button ng-click="selecionarItemMenu(menu)" ng-class="{'selected' : menu === selected }">
-                <md-icon md-svg-icon="{{menu.icon}}" class="avatar"></md-icon>
-                {{menu.name}}
+              <md-button ng-click="selecionarItemMenu(menu)" ng-class="{'selected' : menu === menuSelecionado }">
+                <md-icon class="material-icons md-48">{{menu.icon}}</md-icon>
+                {{menu.nome}}
               </md-button>
           </md-list-item>
         </md-list>
