@@ -46,16 +46,15 @@
       $scope.tabs.selectedIndex = 1;
     };
 
-    $scope.$watch('tabs.selectedIndex', function(current){
+    $scope.$watch('tabs.selectedIndex', function(current) {
       $scope.mensagem = {
         classe: MENSAGENS.corNormal,
         texto: ''
       };
-        
-      if(!bItemSelecionado && current === 1) {
+
+      if (!bItemSelecionado && current === 1) {
         $scope.itemSelecionado = new NavegacaoService();
-      }
-      else if (current === 0) {
+      } else if (current === 0) {
         $scope.listar();
       }
       bItemSelecionado = false;
@@ -74,7 +73,11 @@
         .then(function() {
           $scope.remover(pItem);
         }, function() {
-          $scope.mensagem = { texto: '', status: 'nok', obj: pItem};
+          $scope.mensagem = {
+            texto: '',
+            status: 'nok',
+            obj: pItem
+          };
         });
 
     };
@@ -94,7 +97,7 @@
             console.error(error);
           });
 
-        }
+      }
     };
 
     $scope.salvar = function() {

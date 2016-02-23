@@ -7,11 +7,12 @@
     'angular-loading-bar',
     'ngRoute',
     'ngResource',
+    'coreApp.login',
     'coreApp.home',
     'coreApp.contato',
     'coreApp.navegacao'
   ])
-  
+
   .constant('MENSAGENS', {
     corNormal: 'md-primary',
     corAviso: 'md-primary md-hue-1',

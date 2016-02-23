@@ -19,7 +19,7 @@ module.exports = function(app) {
   app.route('/usuario-teste')
     .post(controller.salvar);
 
-  app.route('/login')
+  app.route('/usuario/login')
     .post(auth.login);
 
   app.route('/usuario/:id')
