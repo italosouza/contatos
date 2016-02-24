@@ -22,7 +22,7 @@
   .config(['$routeProvider', '$mdThemingProvider', function($routeProvider, $mdThemingProvider) {
     $routeProvider
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/navegacao'
       });
 
     $mdThemingProvider.theme('default')
@@ -31,13 +31,31 @@
 
   }])
 
-  .controller('appCtrl', ['$scope', '$mdSidenav', '$location', 'NavegacaoService', function($scope, $mdSidenav, $location, NavegacaoService) {
+  .factory('LoginData', function() {
+    return {
+      usuario: {
+        nome: '',
+        senha: ''
+      },
+      bAutenticado: false
+    };
+  })
+
+  .controller('appCtrl', ['$scope', '$mdSidenav', '$location', 'NavegacaoService', '$window', 'LoginData', function($scope, $mdSidenav, $location, NavegacaoService, $window, LoginData) {
     $scope.painel = {
       titulo: 'IASK'
     };
     $scope.menuSelecionado = null;
+    $scope.loginData = LoginData;
 
-    $scope.listaMenu = NavegacaoService.query();
+    var carregarMenu = function() {
+      $scope.listaMenu = NavegacaoService.query();
+    };
+
+    $scope.loginData.bAutenticado = $window.sessionStorage.token || false;
+    if ($scope.loginData.bAutenticado) {
+      carregarMenu();
+    }
 
     $scope.selecionarItemMenu = function(pItemMenu) {
       $scope.menuSelecionado = pItemMenu;
@@ -47,6 +65,8 @@
     $scope.toggleMenu = function() {
       $mdSidenav('left').toggle();
     };
+
+    $scope.$on('carregarMenu', carregarMenu);
 
   }]);
 

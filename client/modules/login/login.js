@@ -5,34 +5,17 @@
 
   //define as rotas do modulo
   .config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/navegacao', {
-        templateUrl: 'modules/navegacao/navegacao.html',
-        controller: 'NavegacaoController'
-      })
-      .when('/navegacao/edit', {
-        templateUrl: 'modules/navegacao/navegacao.html',
-        controller: 'NavegacaoController'
-      })
-      .when('/navegacao/edit/:id', {
-        templateUrl: 'modules/navegacao/navegacao.html',
-        controller: 'NavegacaoController'
-      });
+    $routeProvider.when('/login', {
+      templateUrl: 'modules/login/login.html',
+      controller: 'LoginController'
+    });
   }])
 
-  .controller('loginController', ['$http', '$window', function($http, $window) {
+  .controller('LoginController', ['$http', '$window', 'LoginData', '$scope', function($http, $window, LoginData, $scope) {
     var vm = this;
-
-    // vm.activate = activate;
-    vm.isAuthenticated = false;
-    // vm.callRestricted = callRestricted;
-    // vm.logout = logout;
+    vm.loginData = LoginData;
     vm.message = '';
-    // vm.submit = submit;
-    vm.user = {
-      username: 'john.papa',
-      password: 'secret'
-    };
-    vm.welcome = '';
+    vm.error = '';
 
 
     //this is used to parse the profile
@@ -56,45 +39,34 @@
 
     this.submit = function() {
       $http
-        .post('/login', vm.user)
-        .success(function(data) {
-          $window.sessionStorage.token = data.token;
-          vm.isAuthenticated = true;
-          var encodedProfile = data.token.split('.')[1];
-          var profile = JSON.parse(url_base64_decode(encodedProfile));
-          vm.welcome = 'Welcome ' + profile.firstName + ' ' + profile.lastName;
+        .post('/usuario/login', vm.loginData.usuario)
+        .success(function(pToken) {
+          $window.sessionStorage.token = pToken;
+          var encodedProfile = pToken.split('.')[1];
+
+          vm.loginData.bAutenticado = true;
+          vm.loginData.profile = JSON.parse(url_base64_decode(encodedProfile));
+
+          $scope.$emit('carregarMenu');
+          $window.location = '#/navegacao';
         })
         .error(function() {
-          // Erase the token if the user fails to log in
+          // Erase the token if the usuario fails to log in
           delete $window.sessionStorage.token;
-          vm.isAuthenticated = false;
+          vm.loginData.bAutenticado = false;
 
           // Handle login errors here
-          vm.error = 'Error: Invalid user or password';
-          vm.welcome = '';
+          vm.error = 'Error: usuário e senha inválidos';
         });
     };
 
     this.logout = function() {
-      vm.welcome = '';
+      vm.error = '';
       vm.message = '';
-      vm.isAuthenticated = false;
+      vm.loginData.bAutenticado = false;
+      vm.loginData.usuario = {};
+      vm.loginData.profile = {};
       delete $window.sessionStorage.token;
-    };
-
-    this.callRestricted = function() {
-      $http({
-          url: '/api/restricted',
-          method: 'GET'
-        })
-        .success(function(data) {
-          vm.message = vm.message + ' ' + data.name; // Should log 'foo'
-        })
-        .error(function(data) {
-          console.log('falha: ' + data);
-          //toastr.error('failed: ' + data);
-          //interceptor is handling the alert
-        });
     };
 
   }]);

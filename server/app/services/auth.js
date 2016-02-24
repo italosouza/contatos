@@ -3,13 +3,6 @@ var bcrypt = require('bcrypt-nodejs');
 
 module.exports = function(app) {
 
-  app.use(function(err, req, res, next) {
-    console.log(err.constructor);
-    if (err.constructor.name === 'UnauthorizedError') {
-      res.send(401, 'Unauthorized');
-    }
-  });
-
   var auth = {
     validarAutenticacao: validarAutenticacao,
     validarSenhaUsuario: validarSenhaUsuario,
@@ -26,23 +19,23 @@ module.exports = function(app) {
 
       try {
         _token = jwt.decode(_token, app.get('secretKey'));
-        var Usuario = app.models.usuario;
-        Usuario.findOne({
-            nome: _token.usuario.nome,
-            senha: _token.usuario.senha
-          })
-          // .select('senha')
-          .select('nome')
-          .exec(function(err, pUsuario) {
-            if (err) {
-              return next(err);
-            }
-            if (!pUsuario) {
-              return res.sendStatus(401);
-            }
+        // var Usuario = app.models.usuario;
+        // Usuario.findOne({
+        //     nome: _token.usuario.nome,
+        //     senha: _token.usuario.senha
+        //   })
+        //   // .select('senha')
+        //   .select('nome')
+        //   .exec(function(err, pUsuario) {
+        //     if (err) {
+        //       return next(err);
+        //     }
+        //     if (!pUsuario) {
+        //       return res.sendStatus(401);
+        //     }
 
-            return next();
-          });
+        return next();
+        //   });
 
       } catch (err) {
         res.sendStatus(401);

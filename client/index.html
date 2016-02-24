@@ -29,7 +29,7 @@
   <body layout="column" ng-cloak >
 
     <!-- toolbar principal -->
-    <md-toolbar>
+    <md-toolbar ng-show="loginData.bAutenticado">
       <div class="md-toolbar-tools" class="md-whiteframe-z1" ng-show="listaMenu">
         <md-button class="md-icon-button" hide-gt-sm ng-click="toggleMenu()" aria-label="Menu">
           <md-icon>menu</md-icon>
@@ -59,7 +59,7 @@
           aria-label="Menu"
           ng-click="toggleMenu()"
           md-is-locked-open="$mdMedia('gt-sm')"
-          ng-show="listaMenu">
+          ng-show="loginData.bAutenticado">
 
         <!-- lista de itens da navegação -->
         <md-list>
