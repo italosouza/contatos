@@ -68,6 +68,26 @@
 
     $scope.$on('carregarMenu', carregarMenu);
 
+  }])
+  
+  .directive('routeLoadingIndicator', ['$rootScope', function($rootScope) {
+    return {
+      restrict: 'E',
+      // template: "<div ng-show='isRouteLoading'>CARREGANDO</div>",
+      replace: true,
+      link: function(scope) {
+        scope.isRouteLoading = false;
+
+        $rootScope.$on('$routeChangeStart', function() {
+          scope.isRouteLoading = true;
+        });
+        $rootScope.$on('$routeChangeSuccess', function() {
+          scope.isRouteLoading = false;
+        });
+      }
+    };
+  
+    
   }]);
 
 })();

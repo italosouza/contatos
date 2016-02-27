@@ -29,7 +29,7 @@
   <body layout="column" ng-cloak >
 
     <!-- toolbar principal -->
-    <md-toolbar ng-show="loginData.bAutenticado">
+    <md-toolbar ng-if="loginData.bAutenticado" ng-clock>
       <div class="md-toolbar-tools" class="md-whiteframe-z1" ng-show="listaMenu">
         <md-button class="md-icon-button" hide-gt-sm ng-click="toggleMenu()" aria-label="Menu">
           <md-icon>menu</md-icon>
@@ -59,7 +59,7 @@
           aria-label="Menu"
           ng-click="toggleMenu()"
           md-is-locked-open="$mdMedia('gt-sm')"
-          ng-show="loginData.bAutenticado">
+          ng-if="loginData.bAutenticado" ng-clock>
 
         <!-- lista de itens da navegação -->
         <md-list>
@@ -74,7 +74,8 @@
 
       <div flex layout="column">
         <!-- conteudo do layout -->
-        <md-content flex ng-view ></md-content>
+        <route-loading-indicator></route-loading-indicator>
+        <md-content flex ng-view ng-if="!isRouteLoading"></md-content>
       </div>
 
     </div>
