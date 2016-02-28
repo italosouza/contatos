@@ -27,6 +27,8 @@
   </head>
 
   <body layout="column" ng-cloak >
+    
+    <loading-overlay-indicator></loading-overlay-indicator>
 
     <!-- toolbar principal -->
     <md-toolbar ng-if="loginData.bAutenticado" ng-clock>
@@ -74,8 +76,8 @@
 
       <div flex layout="column">
         <!-- conteudo do layout -->
-        <route-loading-indicator></route-loading-indicator>
-        <md-content flex ng-view ng-if="!isRouteLoading"></md-content>
+
+        <md-content flex ng-view></md-content>
       </div>
 
     </div>
