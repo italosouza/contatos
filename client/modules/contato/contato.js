@@ -10,7 +10,7 @@
         controller: 'ContatoController'
       })
       .when('/contato/edit', {
-        templateUrl: 'modules/contato/contato_cad.html',
+        templateUrl: 'modules/contato/contato.html',
         controller: 'ContatoController'
       })
       .when('/contato/edit/:id', {
@@ -25,69 +25,65 @@
   }])
 
   //define a controller do modulo
-  .controller('ContatoController', ['$scope', '$routeParams', 'ContatoService', '$mdDialog', function($scope, $routeParams, ContatoService, $mdDialog) {
+  .controller('ContatoController', ['$scope', '$routeParams', 'ContatoService', '$mdDialog', 'MENSAGENS', function($scope, $routeParams, ContatoService, $mdDialog, MENSAGENS) {
     var bItemSelecionado = false;
     $scope.itemSelecionado = null;
     $scope.tabs = {
       selectedIndex: 0
     };
-    // placeholder
-    $scope.states = ('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS ' +
-    'MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY')
-      .split(' ').map(function(state) {
-        return {abbrev: state};
-      });
+
     $scope.lista = [];
     $scope.mensagem = {
+      classe: MENSAGENS.corNormal,
       texto: ''
     };
 
     $scope.selecionarItemCadastro = function(pItem) {
       $scope.buscar(pItem);
-      
+
       $scope.itemSelecionado = 1;
       bItemSelecionado = true;
       $scope.tabs.selectedIndex = 1;
     };
 
-    $scope.$watch('tabs.selectedIndex', function(current){
-      if(!bItemSelecionado && current === 1) {
+    $scope.$watch('tabs.selectedIndex', function(current) {
+      $scope.mensagem = {
+        classe: MENSAGENS.corNormal,
+        texto: ''
+      };
+
+      if (!bItemSelecionado && current === 1) {
         $scope.itemSelecionado = new ContatoService();
-      }
-      else if (current === 0) {
+      } else if (current === 0) {
         $scope.listar();
       }
       bItemSelecionado = false;
     });
 
-    $scope.removerItemCadastro = function(pItem, event) {
-      // Appending dialog to document.body to cover sidenav in docs app
+    $scope.removerItemCadastro = function(pItem, pEvent) {
       var confirm = $mdDialog.confirm()
         .title('Deseja remover este registro?')
         .textContent('Ao confirmar esta operação o registro será removido e não será possível recuperá-lo.')
         .ariaLabel('Remover')
-        .targetEvent(event)
+        .targetEvent(pEvent)
         .ok('SIM')
         .cancel('NÃO');
-  
+
       $mdDialog.show(confirm)
         .then(function() {
-          $scope.mensagem = { texto: 'Registro removido.', status: 'ok', obj: pItem};
+          $scope.remover(pItem);
         }, function() {
-          $scope.mensagem = { texto: 'Operação cancelada.', status: 'nok', obj: pItem};
+          $scope.mensagem = {
+            texto: '',
+            status: 'nok',
+            obj: pItem
+          };
         });
-      
-    };
-    
-    $scope.submit = function() {
-      $scope.salvar();
+
     };
 
-    //setup inicial do objeto (editar/cadastrar)
     $scope.buscar = function(pItem) {
-      console.log(pItem);
       if (pItem._id) {
-  
         ContatoService.get({
             id: pItem._id
           },
@@ -96,30 +92,29 @@
           },
           function(error) {
             $scope.mensagem = {
-              texto: 'Contato não existe.'
+              texto: 'Navegação não existe.'
             };
             console.error(error);
           });
-    
-        } else {
-          $scope.itemSelecionado = new ContatoService();
-        }
+
+      }
     };
 
     $scope.salvar = function() {
       $scope.itemSelecionado.$save()
         .then(function() {
-          // console.log('Salvo', obj);
           $scope.mensagem = {
-            texto: 'Salvo com sucesso'
+            texto: 'Salvo com sucesso',
+            classe: MENSAGENS.corAviso
           };
-          $scope.itemSelecionado = new ContatoService();
         })
         .catch(function(erro) {
           $scope.mensagem = {
             texto: 'Não foi possível salvar',
+            classe: MENSAGENS.corErro,
             error: erro
           };
+          console.table(erro);
         });
     };
 
@@ -129,7 +124,11 @@
           $scope.lista = pLista;
         },
         function(error) {
-          console.error('Não foi possível obter a lista de contato');
+          $scope.mensagem = {
+            texto: 'Não foi possível obter a lista de registros',
+            classe: MENSAGENS.corErro,
+            error: error
+          };
           console.table(error);
         });
     };
@@ -140,7 +139,11 @@
         },
         $scope.listar,
         function(error) {
-          console.error('Não foi possível obter a lista de contato');
+          $scope.mensagem = {
+            texto: 'Não foi possível obter a lista de registros',
+            classe: MENSAGENS.corErro,
+            error: error
+          };
           console.table(error);
         });
     };
