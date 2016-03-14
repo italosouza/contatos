@@ -12,19 +12,26 @@
     'coreApp.login',
     'coreApp.home',
     'coreApp.contato',
-    'coreApp.navegacao'
+    'coreApp.navegacao',
+    'coreApp.usuario'
   ])
 
+  //todo: refatorar em modulo de constantes
   .constant('MENSAGENS', {
     corNormal: 'md-primary',
     corAviso: 'md-primary md-hue-1',
-    corErro: 'md-warn'
+    corErro: 'md-warn',
+    
+    av_NaoFoiPossivelConsultar: 'Não foi possível realizar a consulta.',
+    av_SalvoComSucesso: 'Salvo com sucesso.',
+    av_NaoFoiPossivelSalvar: 'Não foi possível salvar.',
+    av_NaoFoiPossivelRemover: 'Não foi possível remover este registro.'
   })
 
   .config(['$routeProvider', '$mdThemingProvider', function($routeProvider, $mdThemingProvider) {
     $routeProvider
       .otherwise({
-        redirectTo: '/navegacao'
+        redirectTo: '/home'
       });
 
     $mdThemingProvider.theme('default')

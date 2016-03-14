@@ -28,11 +28,11 @@
 
   <body layout="column" ng-cloak >
     
-    <loading-overlay-indicator></loading-overlay-indicator>
+    <!--<loading-overlay-indicator></loading-overlay-indicator>-->
 
     <!-- toolbar principal -->
-    <md-toolbar ng-if="loginData.bAutenticado" ng-clock>
-      <div class="md-toolbar-tools" class="md-whiteframe-z1" ng-show="listaMenu">
+    <md-toolbar ng-if="loginData.bAutenticado" ng-clock class="md-whiteframe-z2">
+      <div class="md-toolbar-tools" ng-show="listaMenu">
         <md-button class="md-icon-button" hide-gt-sm ng-click="toggleMenu()" aria-label="Menu">
           <md-icon>menu</md-icon>
         </md-button>

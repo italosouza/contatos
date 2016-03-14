@@ -48,7 +48,7 @@
           vm.loginData.profile = JSON.parse(url_base64_decode(encodedProfile));
 
           $scope.$emit('carregarMenu');
-          $window.location = '#/navegacao';
+          $window.location = '#/home';
         })
         .error(function() {
           // Erase the token if the usuario fails to log in

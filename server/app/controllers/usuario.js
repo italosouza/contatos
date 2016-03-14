@@ -60,7 +60,7 @@ module.exports = function(app) {
     if (_body._id) {
       _objeto.findByIdAndUpdate(_body._id, _body).exec()
         .then(function(pObjeto) {
-            res.status(200).json(pObjeto);
+            res.status(200).json(_body);
           },
           function(erro) {
             console.error('Salvar -> Alterar -> Erro: \n', erro);
