@@ -1,6 +1,7 @@
 # Contato
 
-> Aplicativo de teste, por favor, ignore.
+> Aplicativo modelo para criação de uma nova aplicação full stack utilizando MongoDB, AngularJS, ExpressJS rodando em NodeJS.
+
 
 ## License
 

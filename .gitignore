@@ -6,5 +6,6 @@ dist/
 tmp
 .DS_Store
 .idea
+.env
 app/jspm_packages
 npm-debug.log

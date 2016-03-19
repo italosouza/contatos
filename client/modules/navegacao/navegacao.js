@@ -1,153 +1,74 @@
 (function() {
   'use strict';
 
-  angular.module('coreApp.navegacao', ['ngRoute'])
+    angular.module('coreApp.navegacao', ['ngRoute'])
 
-  //define as rotas do modulo
-  .config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/navegacao', {
-        templateUrl: 'modules/navegacao/navegacao.html',
-        controller: 'NavegacaoController'
-      })
-      .when('/navegacao/edit', {
-        templateUrl: 'modules/navegacao/navegacao.html',
-        controller: 'NavegacaoController'
-      })
-      .when('/navegacao/edit/:id', {
-        templateUrl: 'modules/navegacao/navegacao.html',
-        controller: 'NavegacaoController'
-      });
-  }])
+    .config(['$routeProvider', function($routeProvider) {
+      $routeProvider.when('/navegacao', {
+          templateUrl: 'modules/navegacao/navegacao.html',
+          controller: 'NavegacaoController'
+        });
+    }])
 
-  //define o service do modulo
-  .factory('NavegacaoService', ['$resource', function($resource) {
-    return $resource('/navegacao/:id');
-  }])
+    //define o service do modulo
+    .service('NavegacaoService', ['CoreService', function(CoreService) {
+      return angular.extend(this, CoreService);
+    }])
 
-  //define a controller do modulo
-  .controller('NavegacaoController', ['$scope', '$routeParams', 'NavegacaoService', '$mdDialog', 'MENSAGENS', function($scope, $routeParams, NavegacaoService, $mdDialog, MENSAGENS) {
-    var bItemSelecionado = false;
-    $scope.itemSelecionado = null;
-    $scope.tabs = {
-      selectedIndex: 0
-    };
+    .controller('NavegacaoController', ['$scope', '$mdDialog', 'NavegacaoService', function($scope, $mdDialog, NavegacaoService) {
 
-    $scope.lista = [];
-    $scope.mensagem = {
-      classe: MENSAGENS.corNormal,
-      texto: ''
-    };
+      //init
+      NavegacaoService.setServiceName('navegacao');
 
-    $scope.selecionarItemCadastro = function(pItem) {
-      $scope.buscar(pItem);
+      //bindings
+      $scope.data = NavegacaoService.data;
 
-      $scope.itemSelecionado = 1;
-      bItemSelecionado = true;
-      $scope.tabs.selectedIndex = 1;
-    };
-
-    $scope.$watch('tabs.selectedIndex', function(current) {
-      $scope.mensagem = {
-        classe: MENSAGENS.corNormal,
-        texto: ''
+      var bItemSelecionado = false;
+      $scope.tabs = {
+        selectedIndex: 0
       };
 
-      if (!bItemSelecionado && current === 1) {
-        $scope.itemSelecionado = new NavegacaoService();
-      } else if (current === 0) {
-        $scope.listar();
-      }
-      bItemSelecionado = false;
-    });
+      $scope.selecionarItemCadastro = function(pItem) {
+        $scope.data.itemSelecionado = pItem;
+        bItemSelecionado = true;
+        $scope.tabs.selectedIndex = 1;
+      };
 
-    $scope.removerItemCadastro = function(pItem, pEvent) {
-      var confirm = $mdDialog.confirm()
-        .title('Deseja remover este registro?')
-        .textContent('Ao confirmar esta operação o registro será removido e não será possível recuperá-lo.')
-        .ariaLabel('Remover')
-        .targetEvent(pEvent)
-        .ok('SIM')
-        .cancel('NÃO');
+      $scope.$watch('tabs.selectedIndex', function(current) {
+        if (current === 0) {
+          NavegacaoService.consultar();
+        } else if (!bItemSelecionado && current === 1) {
+          NavegacaoService.initCadastro();
+        }
 
-      $mdDialog.show(confirm)
-        .then(function() {
-          $scope.remover(pItem);
-        }, function() {
-          $scope.mensagem = {
-            texto: '',
-            status: 'nok',
-            obj: pItem
-          };
-        });
+        bItemSelecionado = false;
+      });
 
-    };
 
-    $scope.buscar = function(pItem) {
-      if (pItem._id) {
-        NavegacaoService.get({
-            id: pItem._id
-          },
-          function(pItem) {
-            $scope.itemSelecionado = pItem;
-          },
-          function(error) {
-            $scope.mensagem = {
-              texto: 'Navegação não existe.'
-            };
-            console.error(error);
+      //todo: refatorar em coreFactory
+      $scope.removerItemCadastro = function(pItem, pEvent) {
+        var confirm = $mdDialog.confirm()
+          .title('Deseja remover este registro?')
+          .textContent('Ao confirmar esta operação o registro será removido e não será possível recuperá-lo.')
+          .ariaLabel('Remover')
+          .targetEvent(pEvent)
+          .ok('SIM')
+          .cancel('NÃO');
+
+        $mdDialog.show(confirm)
+          .then(function() {
+            NavegacaoService.remover(pItem);
           });
+      };
 
-      }
-    };
 
-    $scope.salvar = function() {
-      $scope.itemSelecionado.$save()
-        .then(function() {
-          $scope.mensagem = {
-            texto: 'Salvo com sucesso',
-            classe: MENSAGENS.corAviso
-          };
-        })
-        .catch(function(erro) {
-          $scope.mensagem = {
-            texto: 'Não foi possível salvar',
-            classe: MENSAGENS.corErro,
-            error: erro
-          };
-          console.table(erro);
-        });
-    };
+      //core behavior
+      $scope.salvar = function() {
+        NavegacaoService.salvar($scope.data.itemSelecionado);
+      };
 
-    $scope.listar = function() {
-      NavegacaoService.query(
-        function(pLista) {
-          $scope.lista = pLista;
-        },
-        function(error) {
-          $scope.mensagem = {
-            texto: 'Não foi possível obter a lista de registros',
-            classe: MENSAGENS.corErro,
-            error: error
-          };
-          console.table(error);
-        });
-    };
 
-    $scope.remover = function(pItem) {
-      NavegacaoService.delete({
-          id: pItem._id
-        },
-        $scope.listar,
-        function(error) {
-          $scope.mensagem = {
-            texto: 'Não foi possível obter a lista de registros',
-            classe: MENSAGENS.corErro,
-            error: error
-          };
-          console.table(error);
-        });
-    };
+    }]);
 
-  }]);
 
 })();

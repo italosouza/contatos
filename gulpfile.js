@@ -11,6 +11,7 @@ var sass = require('gulp-sass');
 var imagemin = require('gulp-imagemin');
 var browserSync = require('browser-sync').create();
 var reload = browserSync.reload;
+var minifyHTML = require('gulp-minify-html');
 
 gulp.task('images', function() {
   gulp.src('./client/static/images/**/*')
@@ -49,6 +50,12 @@ gulp.task('copyfonts', function() {
 
 gulp.task('copyhtml', function() {
   gulp.src('./client/**/*.html')
+    .pipe(gulp.dest('./dist/public/'));
+});
+
+gulp.task('copyhtmlmin', function() {
+  gulp.src('./client/**/*.html')
+    .pipe(minifyHTML({empty: true}))
     .pipe(gulp.dest('./dist/public/'));
 });
 
@@ -93,8 +100,6 @@ gulp.task('server', function() {
     .pipe(gulp.dest('./dist/'))
 });
 
-
-
 // Static server
 gulp.task('browser-sync', function() {
 
@@ -108,8 +113,8 @@ gulp.task('browser-sync', function() {
 });
 
 gulp.task('default', function() {
-  gulp.watch("./server/**/*.js", ['server']);
-  gulp.watch("./client/**/*.css", ['styles']);
+  // gulp.watch("./server/**/*.js", ['server']);
+  // gulp.watch("./client/**/*.css", ['styles']);
   gulp.watch("./client/**/*.js", ['scripts']);
   gulp.watch("./client/**/*.html", ['copyhtml']);
 });

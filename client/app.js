@@ -105,9 +105,10 @@
     };
     $scope.menuSelecionado = null;
     $scope.loginData = LoginData;
+    NavegacaoService.setServiceName('navegacao');
 
     var carregarMenu = function() {
-      $scope.listaMenu = NavegacaoService.query();
+      $scope.listaMenu = NavegacaoService.consultar();
     };
 
     $scope.loginData.bAutenticado = $window.sessionStorage.token || false;

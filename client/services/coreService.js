@@ -28,11 +28,12 @@
 
       vm.consultar = function() {
         if (!vm.name) {
+          console.error('Consultar: Nome do serviço não foi definido.');
           return;
         }
 
         var service = $resource('/' + vm.name + '/:id');
-        service.query(
+        return service.query(
           function(pLista) {
             vm.data.result =  pLista;
             vm.data.mensagem = limparMensagem();
@@ -47,6 +48,7 @@
 
       vm.buscar = function(pItem) {
         if (!vm.name) {
+          console.error('Buscar: Nome do serviço não foi definido.');
           return;
         }
 
@@ -67,7 +69,7 @@
           });
         }
       };
-      
+
       vm.initCadastro = function() {
         var Service = $resource('/' + vm.name + '/:id');
         vm.data.itemSelecionado = new Service();
@@ -75,10 +77,9 @@
 
       vm.salvar = function(pItem) {
         if (!vm.name) {
+          console.error('Salvar: Nome do serviço não foi definido.');
           return;
         }
-        
-        console.log(pItem);
 
         pItem.$save()
           .then(function() {
@@ -97,11 +98,12 @@
 
       vm.remover = function(pItem) {
         if (!vm.name) {
+          console.error('Remover: Nome do serviço não foi definido.');
           return;
         }
 
         var service = $resource('/' + vm.name + '/:id');
-        
+
         service.delete({
           id: pItem._id
         },

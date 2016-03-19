@@ -3,9 +3,9 @@
 
   angular.module('coreApp')
 
-  .config(function($httpProvider) {
+  .config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('authInterceptor');
-  })
+  }])
 
   .factory('authInterceptor', ['$rootScope', '$q', '$window', '$location', function($rootScope, $q, $window, $location) {
     return {
